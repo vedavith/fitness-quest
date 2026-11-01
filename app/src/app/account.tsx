@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Text } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { api } from '../api';
 import { Button, Card, Field, Notice, Screen, styles } from '../components/ui';
 import { useStore } from '../store';
 
-const DEFAULT_API = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000';
+// On the web build the API is served from the same domain (see deploy/Caddyfile).
+const DEFAULT_API =
+  process.env.EXPO_PUBLIC_API_URL ??
+  (Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8000');
 
 // US-801 account, US-803/804 sync.
 export default function AccountScreen() {
