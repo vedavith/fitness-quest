@@ -1,0 +1,481 @@
+
+90-Day Fitness Quest: App User Stories
+ · 
+Product overview
+The app turns the 90-day plan into a daily quest: follow today's workout, steps and meals, tap Finish Day, and earn up to 120 XP. These 50 user stories cover the full plan, with every exercise shown by an image.
+Primary user: one person returning to the gym after a long break, starting at 106 kg with a first milestone of 96 kg and a longer-term goal of 90 kg.
+In scope: workouts, steps, meals, sleep, weight and waist tracking, XP, levels, streaks and badges.
+Out of scope: calorie or protein prescriptions, social leaderboards and medical advice.
+Assumptions to confirm
+- 
+Plan length: the plan says 90 days, but its tracker covers 12 weeks (84 days). The app runs 90 days and shows the 12-week tracker within that period.
+- 
+Training after week 2: the plan sets 2 sets of 10–12 reps for the first two weeks only. The app keeps those targets until the user changes them or a trainer supplies a later phase.
+- 
+Step target from week 4: the plan says to work toward 8,000. The app sets 8,000, and the user can lower it on recovery days.
+- 
+Platform: a single React Native codebase for iOS, Android and web, backed by a PHP API. Windows and macOS use the web app in a browser. Phones keep working without internet at the gym.
+Gamification and XP rules
+Every day can earn the same 120 XP, so rest and recovery are worth as much as a gym session. XP rewards following the plan, never doing more than the plan or losing weight faster.
+Daily XP
+Action
+XP
+Rule
+Workout or recovery
+40
+Complete the day's session. Half of the exercises earns 20. Sunday earns 40 for a rest check-in.
+Steps
+20
+Reach the day's target, including a reduced recovery target.
+Meals
+25
+5 XP for each of the 5 main meals. The optional pre-workout snack earns no XP.
+Sleep
+15
+Log at least 7 hours.
+Finish Day bonus
+20
+Complete all four items above, then tap Finish Day.
+Daily maximum
+120
+Periodic XP
+Action
+XP
+Frequency
+Weight check-in
+30
+Weekly
+Waist check-in
+20
+Every 2 weeks
+Streak bonus
+50
+Every 7 consecutive streak days
+A streak day is a finished day that earns at least 60 XP. The most XP available across 90 days is about 11,880.
+Levels
+Level
+Name
+Total XP
+1
+Restarter
+0
+2
+Walker
+500
+3
+Regular
+1,500
+4
+Builder
+3,000
+5
+Strong
+5,000
+6
+Steady
+7,000
+7
+Unstoppable
+9,000
+8
+90-Day Finisher
+11,000
+Badges
+Badge
+Earned by
+First Step
+Finishing day 1
+Full Week
+Completing 6 of 6 workouts in a week
+Step Builder
+Averaging the week's step target for a full week
+8K Club
+Hitting 8,000 steps on 7 days in a row
+Rest Respected
+Completing 4 Sunday rest check-ins
+Meal Master
+Logging all 5 main meals on 7 days in a row
+First Milestone
+Reaching 96 kg
+Long Game
+Reaching 90 kg
+Quest Complete
+Finishing day 90
+The First Milestone and Long Game badges award no XP and have no deadline.
+Epic 1: Onboarding and daily home
+ID
+User story
+Acceptance criteria
+Priority
+US-101
+As a user, I want my starting details loaded so that I can begin without re-entering my plan.
+Shows 106 kg, 40 inches, 171 cm and age 30. Shows goals of 96 kg and 90 kg. All values can be edited.
+Must
+US-102
+As a user, I want to set a start date so that the app knows my current week and day.
+Start date sets day 1 of 90. Workouts follow the weekday. Week number sets the step target.
+Must
+US-103
+As a user, I want a Today screen so that I can see everything due in one place.
+Shows day number, workout, step target, meals, sleep, today's XP and level.
+Must
+US-104
+As a user, I want reminders so that I can stay on schedule.
+Defaults cover the 5:30 AM wake-up, 6:00 AM gym, meal times and evening steps. Each reminder can be edited or turned off.
+Should
+Epic 2: Workouts and exercise images
+Every exercise in the plan needs its own image, and the 18 required images are listed in the checklist near the end of this document.
+ID
+User story
+Acceptance criteria
+Priority
+US-201
+As a user, I want to see the workout for today so that I know what to do at the gym.
+Monday–Sunday match the plan: Chest + Triceps, Back + Biceps, Legs + Core, Active recovery, Full body, Cardio, Rest.
+Must
+US-202
+As a user, I want an image for every exercise so that I can recognise it and do it correctly.
+Every exercise shows its image in the workout list and detail view. The image shows the correct movement or machine.
+Must
+US-203
+As a user, I want images available offline so that I can use them at the gym.
+Exercise images are stored on the device. A missing image shows a placeholder and never blocks logging.
+Must
+US-204
+As a user, I want a cover image for each day so that each workout feels distinct.
+All 7 days have a cover image, including recovery, cardio and rest.
+Should
+US-205
+As a user, I want my targets shown during exercise so that I train at the right level.
+Shows a 5–10 minute warm-up, 2 sets of 10–12 reps, 60–90 seconds of rest, and the reminder to keep 3–4 good reps in reserve.
+Must
+US-206
+As a user, I want to log each set so that I can record my session.
+Each set records completion, weight and reps. Previous weights are shown. The workout completes when all sets are done.
+Must
+US-207
+As a user, I want a rest timer so that I can pace my session.
+Timer can be set from 60 to 90 seconds. It alerts when rest ends and can be skipped.
+Should
+US-208
+As a user, I want cardio and recovery choices so that those days match my plan.
+Thursday shows easy walking and gentle mobility. Saturday offers swimming or comfortable walking, with a reminder not to push through fatigue.
+Must
+US-209
+As a user, I want to rate energy and recovery so that I can decide when to progress.
+Prompts for both ratings after each session. Suggests a training increase only after week 2 and only if recovery is good.
+Should
+Epic 3: Daily steps
+ID
+User story
+Acceptance criteria
+Priority
+US-301
+As a user, I want my step target to build each week so that I progress gradually.
+Week 1: 5,000. Week 2: 6,000. Week 3: 7,000. Week 4 onward: 8,000.
+Must
+US-302
+As a user, I want to enter my steps manually so that I can log them without a connected device.
+Accepts a daily total and shows progress against the target. Today's total can be edited.
+Must
+US-303
+As a user, I want steps to sync automatically so that I do not have to type them.
+On phones, connects to Apple Health or Android Health Connect with permission. Manual entry remains available.
+Should
+US-304
+As a user, I want morning and evening split guidance so that I can spread out my walking.
+Shows half the target for each part of the day. Gym steps count toward the same daily total, with no separate 1 km target.
+Should
+Epic 4: Diet and meals
+ID
+User story
+Acceptance criteria
+Priority
+US-401
+As a user, I want a timed meal checklist so that I know what to eat and when.
+Shows the 5:30 AM optional banana, 7:15 AM breakfast, 10:30 AM fruit, 1:00 PM lunch, 4:30 PM 30 g roasted chana and 7:30 PM dinner.
+Must
+US-402
+As a user, I want tonight's dinner chosen automatically so that I can follow the rotation.
+Mon, Thu, Sat: 150–200 g paneer or tofu. Tue, Fri: 50 g dry soya chunks. Wed, Sun: 150–180 g cooked chicken. All include 2 rotis and vegetables.
+Must
+US-403
+As a user, I want to choose a vegetarian lunch so that I have variety.
+Offers dal, rajma, chole, paneer bhurji, sambar and vegetable khichdi, each as described in the plan. One choice can be selected per day.
+Must
+US-404
+As a user, I want the app to respect my food rules so that suggestions always fit my plan.
+Eggs appear daily. Lunch is always vegetarian. Chicken appears only on Wednesday and Sunday. Curd and buttermilk never appear.
+Must
+US-405
+As a user, I want portion guidance so that my meals stay consistent.
+Shows 2 medium rotis or about 1 cup cooked rice, 1 bowl dal or beans, and a generous serving of vegetables.
+Should
+US-406
+As a user, I want to log a different meal honestly so that my record stays accurate.
+An Ate Something Else option records the meal. It earns no meal XP but does not reset the streak by itself.
+Should
+Epic 5: Finish the day and earn XP
+ID
+User story
+Acceptance criteria
+Priority
+US-501
+As a user, I want a Finish Day button so that I can close my day and claim my reward.
+Shows completed and missed items before confirming. Confirming awards the day's XP once.
+Must
+US-502
+As a user, I want XP calculated from what I completed so that the reward feels fair.
+Uses the XP rules in this document. Finishing a partial day still awards the XP earned.
+Must
+US-503
+As a user, I want a bonus for a complete day so that I am motivated to finish everything.
+Awards 20 XP when workout or recovery, steps, meals and sleep are all complete.
+Must
+US-504
+As a user, I want a rewarding day-end screen so that finishing feels good.
+Shows XP by category, total XP, progress to the next level and any new badge.
+Must
+US-505
+As a user, I want to level up so that I can see my long-term progress.
+Shows the level name and a celebration when a threshold is reached. Levels never go down.
+Must
+US-506
+As a user, I want streaks and badges so that I have reasons to stay consistent.
+Finished days of at least 60 XP extend the streak. Each 7-day streak awards 50 XP. Badges follow the listed rules.
+Should
+US-507
+As a user, I want to finish yesterday if I forgot so that one missed tap does not cost me.
+A day can be finished until 12:00 PM the next day. After that it closes with the XP already logged.
+Should
+US-508
+As a user, I want to correct a logged day so that my record is accurate.
+Reopening a day recalculates its XP without duplicating it. Corrections are allowed until 12:00 PM the next day.
+Should
+US-509
+As a user, I want an XP history so that I can see how I earned my points.
+Lists XP by day and source and totals it by week.
+Could
+Epic 6: Progress tracking
+ID
+User story
+Acceptance criteria
+Priority
+US-601
+As a user, I want a weekly weigh-in so that I can track my weight consistently.
+Defaults to Sunday morning. Reminds me to use the same conditions. Awards 30 XP for logging, whatever the result.
+Must
+US-602
+As a user, I want a waist check every 2 weeks so that I can see changes beyond the scale.
+Prompts every 2 weeks and reminds me to use the same location and conditions. Awards 20 XP for logging.
+Must
+US-603
+As a user, I want a 12-week tracker so that I can review each week at a glance.
+Fills in weight, waist, average steps and workouts out of 6 for weeks 1–12.
+Must
+US-604
+As a user, I want progress charts so that I can see my trends.
+Shows weight and waist trends, plus my distance to 96 kg and 90 kg. Shows no predicted finish date.
+Should
+US-605
+As a user, I want to export my progress so that I can review it with my doctor or dietitian.
+Exports weight, waist, steps, workouts and recovery notes as a PDF.
+Could
+Epic 7: Safety and recovery
+The game must never reward overtraining, under-eating or rapid weight loss.
+ID
+User story
+Acceptance criteria
+Priority
+US-701
+As a user, I want a Stop Exercise option so that I can respond safely to warning signs.
+Lists chest pain, fainting, severe dizziness, unusual breathlessness and sharp joint pain. Advises stopping and seeking medical advice. The workout's 40 XP is still awarded.
+Must
+US-702
+As a user, I want a Recovery Day option so that soreness does not cost me progress.
+I can reduce the day's step target after significant soreness or poor recovery. Reaching the reduced target earns full step XP.
+Must
+US-703
+As a user, I want XP capped at the plan so that the game does not push me too hard.
+No XP for extra steps, extra sessions, skipped meals or kilograms lost.
+Must
+US-704
+As a user, I want adaptation-phase limits so that I restart safely.
+During weeks 1–2 the app offers no HIIT, maximum lifts or training to failure. Light, controlled weights are recommended.
+Must
+US-705
+As a user, I want clear health guidance so that I use the plan appropriately.
+States that this is a general template, results are not guaranteed, and targets should be confirmed with a doctor or registered dietitian. Warns against dehydration, starvation diets, unprescribed medication and excessive exercise.
+Must
+US-706
+As a user, I want to log my sleep so that recovery counts toward my day.
+Records hours slept against a 7–9 hour guide. Logging at least 7 hours earns 15 XP.
+Must
+US-707
+As a user, I want to pause the plan when I am ill or injured so that I can recover without losing my streak.
+A pause keeps the streak and stops reminders. It earns no XP. Resuming continues from the next plan day.
+Should
+Epic 8: Accounts, sync and platforms
+One account keeps XP and progress the same on every device.
+ID
+User story
+Acceptance criteria
+Priority
+US-801
+As a user, I want a secure account so that my data belongs to me and follows me across devices.
+I can register, sign in, sign out and reset my password. Passwords are stored only as secure hashes.
+Must
+US-802
+As a user, I want the app on iOS, Android and web so that I can use whichever device is nearby.
+All Must stories work on all three platforms. Phone-only features are hidden on web.
+Must
+US-803
+As a user, I want my progress synced so that every device shows the same data.
+Workouts, steps, meals, sleep, check-ins, XP and badges appear on my other devices after sync.
+Must
+US-804
+As a user, I want to log without internet so that a poor gym connection does not stop me.
+Phone entries are saved locally and upload when back online. Sync never duplicates an entry.
+Must
+US-805
+As a user, I want my XP confirmed by the server so that my total stays correct on every device.
+The PHP API calculates XP from synced logs and awards each day's XP once, even if Finish Day is tapped on two devices.
+Must
+US-806
+As a user, I want control of my data so that my health information stays private.
+Data travels only over HTTPS. I can export my data and permanently delete my account.
+Should
+Technical stack
+The app uses one React Native frontend and one PHP backend, which together cover iOS, Android and web.
+Layer
+Choice
+Responsibility
+App
+React Native with Expo and React Native Web
+Screens, exercise images, logging and offline storage
+API
+PHP with Laravel
+Accounts, plan data, sync, XP, levels, streaks and badges
+Database
+MySQL
+Users, logs, check-ins, XP history and badges
+Images
+Bundled in the app, with a web copy served by the app
+The 18 exercise images and 7 cover images
+Health data
+Apple Health and Android Health Connect
+Optional phone step sync
+Expo, Laravel and MySQL are recommended choices within your PHP and React Native requirement, and can be swapped.
+Workout image checklist
+The app needs 18 exercise and activity images, plus the 7 daily cover images in US-204.
+No.
+Exercise or activity
+Used on
+Image must show
+Ready
+1
+Chest press
+Mon, Fri
+Seated chest press position and push path
+[ ]
+2
+Incline dumbbell press
+Mon
+Incline bench, dumbbell path
+[ ]
+3
+Pec deck
+Mon
+Machine setup and arm path
+[ ]
+4
+Triceps pushdown
+Mon
+Cable attachment, elbows at the sides
+[ ]
+5
+Lat pulldown
+Tue, Fri
+Bar pulled toward the upper chest
+[ ]
+6
+Seated row
+Tue
+Upright torso, pulling action
+[ ]
+7
+Face pulls
+Tue
+Rope pulled toward the face
+[ ]
+8
+Dumbbell curls
+Tue
+Elbows at the sides, curl path
+[ ]
+9
+Leg press
+Wed, Fri
+Foot position and leg path
+[ ]
+10
+Leg curl
+Wed
+Pad position and curl action
+[ ]
+11
+Leg extension
+Wed
+Seated position and extension action
+[ ]
+12
+Glute bridges
+Wed
+Hips lifted from the floor
+[ ]
+13
+Plank
+Wed
+Straight line from head to heels
+[ ]
+14
+Shoulder press
+Fri
+Seated press path
+[ ]
+15
+Cable row
+Fri
+Cable setup and pulling action
+[ ]
+16
+Walking
+Thu, Sat
+Comfortable walking pace
+[ ]
+17
+Gentle mobility
+Thu
+Simple, low-intensity stretching movement
+[ ]
+18
+Swimming
+Sat
+Relaxed lap swimming
+[ ]
+Use one illustration style across the set, and confirm that every image is licensed for use in the app.
+Release order
+Build the 34 Must stories first, because together they deliver the complete daily XP loop.
+Release
+Stories
+Delivers
+MVP
+34 Must
+Daily plan, exercise images, logging, Finish Day, XP, levels, tracking, safety, accounts and sync
+Version 1.1
+14 Should
+Reminders, step sync, streaks, badges, corrections, data controls and richer training support
+Later
+2 Could
+XP history and PDF export
+
