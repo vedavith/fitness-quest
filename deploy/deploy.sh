@@ -10,6 +10,7 @@ git pull --ff-only
 echo "==> API: PHP dependencies, migrations, caches"
 cd api
 composer install --no-dev --optimize-autoloader --no-interaction
+grep -q '^APP_KEY=base64:' .env || php artisan key:generate --force
 php artisan migrate --force
 php artisan config:cache
 php artisan route:cache
