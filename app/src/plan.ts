@@ -3,6 +3,9 @@
 export type Weekday = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
 export const WEEKDAYS: Weekday[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+export const PLAN_DAYS = 90;
+export const SETS_PER_EXERCISE = 2;
+
 export interface Exercise {
   id: string;
   name: string;
@@ -54,20 +57,31 @@ export const TRAINING_TARGETS = {
   note: 'Keep 3–4 good reps in reserve',
 };
 
+/** Keys match api/app/Domain/Plan::MAIN_MEALS. */
+export type MealKey = 'breakfast' | 'fruit' | 'lunch' | 'snack' | 'dinner';
+
 export interface Meal {
+  key: MealKey | 'banana';
   time: string;
   name: string;
   main: boolean;
 }
 
+// US-401: timed meal checklist. The 5:30 AM banana is optional and earns no XP.
 export const MEALS: Meal[] = [
-  { time: '5:30 AM', name: 'Banana (optional pre-workout)', main: false },
-  { time: '7:15 AM', name: 'Breakfast (with eggs)', main: true },
-  { time: '10:30 AM', name: 'Fruit', main: true },
-  { time: '1:00 PM', name: 'Vegetarian lunch', main: true },
-  { time: '4:30 PM', name: '30 g roasted chana', main: true },
-  { time: '7:30 PM', name: 'Dinner', main: true },
+  { key: 'banana', time: '5:30 AM', name: 'Banana (optional, pre-workout)', main: false },
+  { key: 'breakfast', time: '7:15 AM', name: 'Breakfast with eggs', main: true },
+  { key: 'fruit', time: '10:30 AM', name: 'Fruit', main: true },
+  { key: 'lunch', time: '1:00 PM', name: 'Vegetarian lunch', main: true },
+  { key: 'snack', time: '4:30 PM', name: '30 g roasted chana', main: true },
+  { key: 'dinner', time: '7:30 PM', name: 'Dinner', main: true },
 ];
+
+export const MAIN_MEALS: MealKey[] = ['breakfast', 'fruit', 'lunch', 'snack', 'dinner'];
+
+// US-405
+export const PORTIONS =
+  '2 medium rotis or about 1 cup cooked rice, 1 bowl dal or beans, and a generous serving of vegetables.';
 
 export const LUNCH_OPTIONS = ['Dal', 'Rajma', 'Chole', 'Paneer bhurji', 'Sambar', 'Vegetable khichdi'];
 
@@ -83,6 +97,39 @@ export function dinnerFor(day: Weekday): string {
 
 export function stepTargetForWeek(week: number): number {
   return week <= 1 ? 5000 : week === 2 ? 6000 : week === 3 ? 7000 : 8000;
+}
+
+export function weekFor(planDay: number): number {
+  return Math.floor((planDay - 1) / 7) + 1;
+}
+
+/** Local date (YYYY-MM-DD) to a Date at local midnight. */
+export function parseLocalDate(iso: string): Date {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+export function toLocalIso(date: Date): string {
+  const p = (n: number) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())}`;
+}
+
+export function dateForPlanDay(startIso: string, planDay: number): Date {
+  const d = parseLocalDate(startIso);
+  d.setDate(d.getDate() + planDay - 1);
+  return d;
+}
+
+export function weekdayFor(startIso: string, planDay: number): Weekday {
+  return WEEKDAYS[dateForPlanDay(startIso, planDay).getDay()];
+}
+
+/** 12:00 PM the day after: last moment to finish or correct a day (US-507, US-508). */
+export function deadlineFor(startIso: string, planDay: number): Date {
+  const d = dateForPlanDay(startIso, planDay);
+  d.setDate(d.getDate() + 1);
+  d.setHours(12, 0, 0, 0);
+  return d;
 }
 
 /** 1-based plan day and week for a date, given the plan start date (US-102). */
