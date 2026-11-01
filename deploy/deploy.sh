@@ -26,6 +26,7 @@ cd ..
 echo "==> Permissions"
 sudo chgrp -R www-data api/storage api/bootstrap/cache
 sudo chmod -R ug+rwX api/storage api/bootstrap/cache
+sudo find api/storage api/bootstrap/cache -type d -exec chmod g+s {} +
 
 echo "==> Reloading PHP-FPM"
 sudo systemctl reload php8.3-fpm

@@ -36,6 +36,11 @@ npm run typecheck
 Set `EXPO_PUBLIC_API_URL` to point the app at your API (defaults to `http://localhost:8000`).
 The app works fully offline without an account; signing in syncs it to the API.
 
+## Deploying
+
+See [docs/DEPLOY.md](docs/DEPLOY.md) for hosting on Ubuntu with Apache, PHP-FPM and MySQL
+(live address: https://fitness-quest.entity-forge.dev).
+
 ## What's built (MVP progress)
 
 | Area | Stories | Status |
