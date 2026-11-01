@@ -3,7 +3,7 @@
 namespace App\Domain;
 
 /** Everything XpRules needs to score a single plan day. */
-final class DayLog
+final class DayInput
 {
     public function __construct(
         public readonly int $exercisesTotal = 0,

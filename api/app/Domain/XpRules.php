@@ -45,7 +45,7 @@ final class XpRules
      *
      * @return array{workout:int, steps:int, meals:int, sleep:int, bonus:int, total:int}
      */
-    public static function dailyXp(DayLog $day): array
+    public static function dailyXp(DayInput $day): array
     {
         $workout = match (true) {
             $day->stoppedForSafety => self::WORKOUT_FULL, // US-701
