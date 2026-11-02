@@ -88,7 +88,7 @@ git clone https://github.com/vedavith/fitness-quest.git /var/www/fitness-quest
 cd /var/www/fitness-quest/api && cp .env.example .env && nano .env
 ```
 
-Set these values (the `DB_` lines are commented out in the example; remove the `#`):
+Set these values:
 
 ```ini
 APP_NAME="Fitness Quest"

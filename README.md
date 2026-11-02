@@ -17,12 +17,20 @@ The server is the source of truth for XP (US-805). The core rules are in
 
 ## Getting started
 
-API (PHP 8.3, uses SQLite locally; set `DB_CONNECTION=mysql` in `.env` for MySQL):
+API (PHP 8.3 and MySQL 8). Create the database once:
+
+```sql
+CREATE DATABASE fitness_quest CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'fitness_quest'@'localhost' IDENTIFIED BY 'choose-a-password';
+GRANT ALL ON fitness_quest.* TO 'fitness_quest'@'localhost';
+```
+
+Then put that password in `DB_PASSWORD` in `api/.env`:
 
 ```bash
 cd api && composer install && cp .env.example .env && php artisan key:generate
 php artisan migrate && php artisan serve
-php artisan test
+php artisan test   # tests use an in-memory SQLite database, not MySQL
 ```
 
 App (iOS, Android and web from one codebase):
