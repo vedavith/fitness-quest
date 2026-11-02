@@ -4,10 +4,13 @@ import { api } from '../api';
 import { Button, Card, Field, Notice, Screen, styles } from '../components/ui';
 import { useStore } from '../store';
 
-// On the web build the API is served from the same domain (see deploy/Caddyfile).
+// In production the web build is served from the same domain as the API (see docs/DEPLOY.md).
+// In development the API runs separately on `php artisan serve` (port 8000).
 const DEFAULT_API =
   process.env.EXPO_PUBLIC_API_URL ??
-  (Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8000');
+  (Platform.OS === 'web' && !__DEV__ && typeof window !== 'undefined'
+    ? window.location.origin
+    : 'http://localhost:8000');
 
 // US-801 account, US-803/804 sync.
 export default function AccountScreen() {
